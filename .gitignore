@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# TypeScript output
+**/dist/
+
+# Logs
+*.log
+
+# Environment variables
+**/.env
+
+# pnpm store
+.pnpm-store/

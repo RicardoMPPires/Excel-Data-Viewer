@@ -1,0 +1,40 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "env": {
+    "node": true,
+    "es2021": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "ignorePatterns": ["node_modules/", "dist/", "frontend/.next/"],
+  "rules": {
+    "prettier/prettier": ["error"]
+  },
+  "overrides": [
+    {
+      "files": ["frontend/**/*.ts", "frontend/**/*.tsx"],
+      "env": {
+        "browser": true,
+        "node": false
+      }
+    },
+    {
+      "files": ["backend/**/*.ts"],
+      "env": {
+        "node": true,
+        "browser": false
+      }
+    }
+  ]
+}

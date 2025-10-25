@@ -1,0 +1,24 @@
+# Use Node.js 20 Alpine
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Install pnpm and tsx globally
+RUN npm install -g pnpm tsx
+
+# Copy only package files to leverage caching
+COPY package.json pnpm-lock.yaml* ./
+
+# Install all dependencies (both dependencies and devDependencies)
+RUN pnpm install
+
+# Copy the rest of the source code
+COPY . .
+
+# Expose port
+ENV PORT=8000
+EXPOSE 8000
+
+# Run backend with tsx
+CMD ["tsx", "src/app.ts"]

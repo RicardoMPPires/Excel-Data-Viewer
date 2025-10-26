@@ -18,13 +18,6 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onDataReceived }) => {
       return;
     }
 
-    // const validExtensions = ['.xls', '.xlsx'];
-    // if (file && !validExtensions.includes(file.name.slice(-4))) {
-    //   setError('Invalid file type. Please upload an .xls or .xlsx file.');
-    //   setNoFile(false);
-    //   return;
-    // }
-
     setLoading(true);
     setError(null);
     setNoFile(false); // Reset noFile state when a file is selected

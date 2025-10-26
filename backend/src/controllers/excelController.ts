@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { parseExcel } from '../services/excelDataService';
-import { computeIndicators } from '../services/dataAnalyticsService';
+import { mapRowsToDTOs, parseExcelToRows } from '../mappers/excelTable.mapper';
 import { ExcelTableDTO } from '../schemas/excelTable.schema';
+import { computeIndicators } from '../services/dataAnalyticsService';
 
 /**
  * @swagger
@@ -31,66 +31,56 @@ import { ExcelTableDTO } from '../schemas/excelTable.schema';
  *                 data:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       companyName:
- *                         type: string
- *                       year:
- *                         type: number
- *                       sector:
- *                         type: string
- *                       energyConsumption:
- *                         type: number
- *                       carbonEmissions:
- *                         type: number
+ *                     $ref: '#/components/schemas/ExcelTableDTO'
  *                 indicators:
  *                   type: object
  *                   properties:
  *                     totalCO2PerYear:
  *                       type: object
- *                       additionalProperties:
- *                         type: number
  *                     averageEnergyPerCompany:
  *                       type: object
- *                       additionalProperties:
- *                         type: number
  *                     top5Emitters:
  *                       type: array
  *                       items:
- *                         type: object
- *                         properties:
- *                           companyName:
- *                             type: string
- *                           emissions:
- *                             type: number
+ *                         type: string
  *       400:
  *         description: Invalid input or Excel file
  */
-export const processExcel = (req: Request, res: Response) => {
-  if (!req.files || !req.files.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-
-  const file = req.files.file as any;
-  if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
-    return res.status(400).json({ error: 'Invalid file type. Please upload an Excel file.' });
-  }
-
+export const processExcel = async (req: Request, res: Response) => {
   try {
-    // 1️⃣ Parse Excel file
-    const data: ExcelTableDTO[] = parseExcel(file.data);
+    // ✅ Step 1: Validate file presence
+    if (!req.files || !req.files.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
 
-    // 2️⃣ Compute indicators
-    const indicators = computeIndicators(data);
+    const file = req.files.file as any;
 
-    // 3️⃣ Return parsed data + computed indicators
+    // ✅ Step 2: Validate file type
+    if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
+      return res.status(400).json({
+        error: 'Invalid file type. Please upload an Excel file.',
+      });
+    }
+
+    // ✅ Step 3: Parse raw Excel buffer into rows
+    const rawRows = parseExcelToRows(file.data);
+
+    // ✅ Step 4: Map raw rows → validated DTOs
+    const dtoData: ExcelTableDTO[] = mapRowsToDTOs(rawRows);
+
+    // ✅ Step 5: Compute indicators (service layer)
+    const indicators = computeIndicators(dtoData);
+
+    // ✅ Step 6: Respond with data + insights
     return res.json({
       message: 'File processed successfully',
-      data,
+      data: dtoData,
       indicators,
     });
   } catch (error: any) {
-    console.error(error);
-    return res.status(400).json({ error: error.message });
+    console.error('❌ Error processing Excel:', error);
+    return res.status(400).json({
+      error: error.message || 'Failed to process Excel file',
+    });
   }
 };

@@ -1,4 +1,17 @@
+import * as XLSX from 'xlsx';
 import { ExcelRowSchema, ExcelTableDTO } from '../schemas/excelTable.schema';
+
+/**
+ * Parses an Excel file buffer and returns an array of raw row objects.
+ * @param buffer The buffer of the uploaded Excel file.
+ * @returns The array of raw row objects extracted from the Excel file.
+ */
+export const parseExcelToRows = (buffer: Buffer) => {
+  const workbook = XLSX.read(buffer, { type: 'buffer' });
+  const sheetName = workbook.SheetNames[0];
+  const sheet = workbook.Sheets[sheetName];
+  return XLSX.utils.sheet_to_json(sheet);
+};
 
 /**
  * Maps a single raw Excel row to a validated ExcelTableDTO using Zod.

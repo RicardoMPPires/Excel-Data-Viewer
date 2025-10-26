@@ -10,7 +10,8 @@
     "format": "prettier --write './**/*.{ts,tsx,json,md}'",
     "clean": "docker rm -f excel-backend-container || true",
     "docker:build": "pnpm run clean && docker build -t excel-backend .",
-    "docker:serve": "docker run -d -p 8000:8000 --name excel-backend-container excel-backend"
+    "docker:serve": "docker run -d -p 8000:8000 --name excel-backend-container excel-backend",
+    "docker:stop": "docker stop excel-backend-container && docker rm excel-backend-container"
   },
   "keywords": [],
   "author": "",

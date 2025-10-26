@@ -8,6 +8,7 @@
     "start": "next start -p 3000",
     "docker:build": "docker build -t excel-frontend .",
     "docker:start": "docker run -d -p 3000:3000 --name excel-frontend-container excel-frontend",
+    "docker:stop": "docker stop excel-frontend-container && docker rm excel-frontend-container",
     "lint": "eslint"
   },
   "dependencies": {

@@ -30,8 +30,6 @@ import { computeIndicators } from '../services/dataAnalyticsService';
  *                   type: string
  *                 data:
  *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/ExcelTableDTO'
  *                 indicators:
  *                   type: object
  *                   properties:

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { parseExcel } from '../services/excelDataService';
+import { computeIndicators } from '../services/dataAnalyticsService';
 import { ExcelTableDTO } from '../schemas/excelTable.schema';
 
 /**
@@ -32,12 +33,36 @@ import { ExcelTableDTO } from '../schemas/excelTable.schema';
  *                   items:
  *                     type: object
  *                     properties:
- *                       name:
+ *                       companyName:
  *                         type: string
- *                       email:
- *                         type: string
- *                       age:
+ *                       year:
  *                         type: number
+ *                       sector:
+ *                         type: string
+ *                       energyConsumption:
+ *                         type: number
+ *                       carbonEmissions:
+ *                         type: number
+ *                 indicators:
+ *                   type: object
+ *                   properties:
+ *                     totalCO2PerYear:
+ *                       type: object
+ *                       additionalProperties:
+ *                         type: number
+ *                     averageEnergyPerCompany:
+ *                       type: object
+ *                       additionalProperties:
+ *                         type: number
+ *                     top5Emitters:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           companyName:
+ *                             type: string
+ *                           emissions:
+ *                             type: number
  *       400:
  *         description: Invalid input or Excel file
  */
@@ -47,10 +72,23 @@ export const processExcel = (req: Request, res: Response) => {
   }
 
   const file = req.files.file as any;
+  if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
+    return res.status(400).json({ error: 'Invalid file type. Please upload an Excel file.' });
+  }
 
   try {
+    // 1️⃣ Parse Excel file
     const data: ExcelTableDTO[] = parseExcel(file.data);
-    return res.json({ message: 'File processed successfully', data });
+
+    // 2️⃣ Compute indicators
+    const indicators = computeIndicators(data);
+
+    // 3️⃣ Return parsed data + computed indicators
+    return res.json({
+      message: 'File processed successfully',
+      data,
+      indicators,
+    });
   } catch (error: any) {
     console.error(error);
     return res.status(400).json({ error: error.message });

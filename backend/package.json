@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "start": "tsx src/app.ts",
     "lint": "eslint './**/*.{ts,tsx}' --fix",
     "format": "prettier --write './**/*.{ts,tsx,json,md}'",
     "clean": "docker rm -f excel-backend-container || true",
-    "build": "pnpm run clean && docker build -t excel-backend .",
-    "serve": "docker run -d -p 8000:8000 --name excel-backend-container excel-backend"
+    "docker:build": "pnpm run clean && docker build -t excel-backend .",
+    "docker:serve": "docker run -d -p 8000:8000 --name excel-backend-container excel-backend"
   },
   "keywords": [],
   "author": "",

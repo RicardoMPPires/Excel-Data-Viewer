@@ -4,6 +4,9 @@ export interface ExcelUploadResponse {
   indicators?: {
     totalCO2PerYear?: Record<string, number>;
     averageEnergyPerCompany?: Record<string, number>;
-    top5Emitters?: string[];
+    top5Emitters?: {
+      companyName: string;
+      emissions: number;
+    }[];
   };
 }

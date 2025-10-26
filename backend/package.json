@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint './**/*.{ts,tsx}' --fix",
     "format": "prettier --write './**/*.{ts,tsx,json,md}'",
-    "build": "tsc",
-    "serve": "exec tsx watch src/app.ts"
+    "clean": "docker rm -f excel-backend-container || true",
+    "build": "pnpm run clean && docker build -t excel-backend .",
+    "serve": "docker run -d -p 8000:8000 --name excel-backend-container excel-backend"
   },
   "keywords": [],
   "author": "",

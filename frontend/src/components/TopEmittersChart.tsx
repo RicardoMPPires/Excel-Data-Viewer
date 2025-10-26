@@ -13,7 +13,7 @@ export const TopEmittersChart: React.FC<TopEmittersChartProps> = ({ data }) => {
   }));
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-4 w-full">
+    <div className="bg-white text-black rounded-2xl shadow-md p-4 w-full">
       <h2 className="text-lg font-semibold mb-4 text-green-700">
         🌿 Top 5 Companies with highest CO₂ Emissions
       </h2>

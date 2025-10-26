@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { UploadForm } from '../components/UploadForm';
 import { DataTable } from '../components/DataTable';
 import { Header } from '../components/Header';
-import { IndicatorsChart } from '../components/IndicatorsChart';
+import { TotalCO2PerYearTable } from '../components/TotalCO2PerYearTable.tsx';
 import { ExcelUploadResponse } from '@/interfaces/response/excelUploadResponse';
+import { TopEmittersChart } from '@/components/TopEmittersChart';
+import { AverageEnergyPerCompanyTable } from '@/components/AverageEnergyPerCompanyTable';
 
 export default function Home() {
   const [data, setData] = useState<ExcelUploadResponse | null>(null);
@@ -15,30 +17,27 @@ export default function Home() {
       <Header />
       <UploadForm onDataReceived={setData} />
 
+      {data && data.data.length > 0 && <DataTable data={data.data} />}
+
       {data && data.indicators && (
-        <div className="max-w-6xl mx-auto mt-8 p-4 flex flex-wrap gap-4">
+        <div className="max-w-6xl mx-auto mt-8 p-4">
           {data.indicators.totalCO2PerYear && (
-            <IndicatorsChart
-              title="Total CO2 Emissions per Year"
-              data={data.indicators.totalCO2PerYear}
-            />
+            <div className="mb-4">
+              <TotalCO2PerYearTable data={data.indicators.totalCO2PerYear} />
+            </div>
           )}
           {data.indicators.averageEnergyPerCompany && (
-            <IndicatorsChart
-              title="Average Energy Consumption per Company"
-              data={data.indicators.averageEnergyPerCompany}
-            />
+            <div className="mb-4">
+              <AverageEnergyPerCompanyTable data={data.indicators.averageEnergyPerCompany} />
+            </div>
           )}
           {data.indicators.top5Emitters && (
-            <IndicatorsChart
-              title="Top 5 Emitters"
-              data={Object.fromEntries(data.indicators.top5Emitters.map((v) => [v, 1]))}
-            />
+            <div className="mb-4">
+              <TopEmittersChart data={data.indicators.top5Emitters} />
+            </div>
           )}
         </div>
       )}
-
-      {data && data.data.length > 0 && <DataTable data={data.data} />}
     </main>
   );
 }

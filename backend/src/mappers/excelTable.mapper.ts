@@ -37,6 +37,11 @@ export const mapRowToDTO = (row: any): ExcelTableDTO => {
   return result.data;
 };
 
+/**
+ * Maps an array of raw Excel rows to an array of validated ExcelTableDTOs.
+ * @param rows The array of raw row objects from Excel.
+ * @returns The array of validated ExcelTableDTOs.
+ */
 export const mapRowsToDTOs = (rows: any[]): ExcelTableDTO[] => {
   return rows.map(mapRowToDTO);
 };

@@ -1,5 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 
+/**
+ * Log details of incoming HTTP requests for debugging and monitoring.
+ * @param req The incoming request object
+ * @param res The outgoing response object
+ * @param next The next middleware function
+ */
 export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
   const now = new Date().toISOString();
   console.log(`\n[${now}] ${req.method} ${req.url}`);

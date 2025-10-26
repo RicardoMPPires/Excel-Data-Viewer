@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/**
+ * Zod schema for validating each row of the Excel table.
+ */
 export const ExcelRowSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
   year: z.number().int().nonnegative('Year must be non-negative'),

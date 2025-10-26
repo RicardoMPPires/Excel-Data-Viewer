@@ -1,10 +1,5 @@
 import { ExcelTableDTO } from '../schemas/excelTable.schema';
-
-export interface Indicators {
-  totalCO2PerYear: Record<number, number>;
-  averageEnergyPerCompany: Record<string, number>;
-  top5Emitters: { companyName: string; emissions: number }[];
-}
+import { Indicators } from '../types/indicators';
 
 /**
  * Processes the data to compute various indicators:

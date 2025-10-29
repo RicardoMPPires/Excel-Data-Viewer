@@ -55,23 +55,40 @@ Make sure you have installed:
 
 Use the root `package.json` to manage both containers easily.
 
-### 1️⃣ Build both images
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/RicardoMPPires/Excel-Data-Viewer.git
+cd Excel\ Data\ Viewer/
+```
+
+### 2. Build both images
 
 ```bash
 pnpm docker:build
 ```
 
-### 2️⃣ Start the containers
+This will:
+
+Build the frontend Docker image
+
+Build the backend Docker image
+
+### 3. Start the containers
 
 ```bash
 pnpm docker:start
 ```
 
+This runs both containers defined in docker-compose.yml.
+
+The services will be available at:
+
 Frontend → [http://localhost:3000](http://localhost:3000)  
 Backend → [http://localhost:8000](http://localhost:8000)  
 Swagger UI → [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
 
-### 3️⃣ Stop all containers
+### 4. Stop all containers
 
 ```bash
 pnpm docker:stop
@@ -275,25 +292,10 @@ pnpm docker:stop
 
 ## 🧰 Tech Stack
 
-**Frontend**
+**Frontend**: Next.js, React, TailwindCSS, Recharts
 
-- Next.js 14
-- TypeScript
-- TailwindCSS
-- Recharts
+**Backend**: Express.js, TypeScript, Swagger (OpenAPI), ExcelJS
 
-**Backend**
+**Containerization**: Docker, Docker Compose
 
-- Node.js
-- Express
-- XLSX
-
-**DevOps**
-
-- Docker
-- Docker Compose
-- pnpm
-
-## 💡 Author Notes
-
-This project demonstrates a clean architecture separating **data processing** (backend) from **data visualization** (frontend).
+**Package Manager**: pnpm

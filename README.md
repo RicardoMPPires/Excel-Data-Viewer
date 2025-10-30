@@ -1,4 +1,4 @@
-# 🌱 Excel Emissions Analyzer
+# 🌱 Excel Data Viewer
 
 This project is a full-stack web application that allows users to **upload Excel files** containing company energy and emissions data.  
 It processes the data, calculates key **environmental indicators**, and displays insights through **interactive charts and tables**.
@@ -56,6 +56,14 @@ Make sure you have installed:
 Use the root `package.json` to manage both containers easily.
 
 #### 1. Clone the Repository
+
+Before cloning the project, navigate to the directory where you want the app to be copied:
+
+```bash
+cd /path/to/your/preferred/folder
+```
+
+Then, clone the repository and move into it:
 
 ```bash
 git clone https://github.com/RicardoMPPires/Excel-Data-Viewer.git
